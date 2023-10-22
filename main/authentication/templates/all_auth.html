@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if check_linkedin_token %}
+<div>
+    <button>Connected to LinkedIn</button>
+</div>
+{% else %}
+<div>
+    <button href="{% url 'authentication:begin' 'linkedin-auth2' %}">Connect to LinkedIn</a>
+</div>
+{% endif %}
+
+{% if token %}
+<p> Linkedin Token :- {{token}}</p>
+{% endif %}
+
+{% endblock content %}
