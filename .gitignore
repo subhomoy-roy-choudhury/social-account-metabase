@@ -6,5 +6,6 @@ __pycache__
 celery.log
 celery.beat.log
 celerybeat-schedule.db
+celerybeat-schedule
 
 staticfiles

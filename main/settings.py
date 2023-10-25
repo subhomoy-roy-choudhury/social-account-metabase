@@ -153,8 +153,8 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = [
     "public-profile-url",
 ]
 
-CELERY_BROKER_URL = "redis://localhost:8379"
-CELERY_RESULT_BACKEND = "redis://localhost:8379"
+CELERY_BROKER_URL = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:8379"
+CELERY_RESULT_BACKEND = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:8379"
 CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"

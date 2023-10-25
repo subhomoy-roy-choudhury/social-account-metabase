@@ -10,7 +10,8 @@
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
             "env": {
-                "SQL_HOST": "localhost"
+                "SQL_HOST": "localhost",
+                "REDIS_DB_HOST": "localhost"
             },
             "program": "${workspaceFolder}/manage.py",
             "args": [
