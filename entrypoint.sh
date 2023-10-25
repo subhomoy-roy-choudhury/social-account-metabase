@@ -13,16 +13,16 @@ fi
 
 if [ "$MODE" = "server" ]
 then 
-  python manage.py flush --no-input
+  # python manage.py flush --no-input
   python manage.py migrate
   python manage.py collectstatic --no-input --clear
   gunicorn main.wsgi:application --bind 0.0.0.0:8000
 elif [ "$MODE" = "celery_beat" ]
 then
-  celery -A main beat -l info --logfile=celery.beat.log
+  celery -A main beat --loglevel=info
 elif [ "$MODE" = "celery_worker" ]
 then
-  celery -A main worker -l info --logfile=celery.log
+  celery -A main worker --loglevel=info
 fi
 
 exec "$@"

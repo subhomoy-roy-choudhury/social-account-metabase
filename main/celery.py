@@ -26,8 +26,8 @@ def debug_task(self):
 
 app.conf.beat_schedule = {
     # Execute the Speed Test every 10 minutes
-    'network-speedtest-10min': {
-        'task': 'post_webhook',
+    'daily_linkedin_post': {
+        'task': 'daily_linkedin_post',
         'schedule': crontab(minute='*/2'),
     },
 }

@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-LOCAL_APPS = ["authentication"]
+LOCAL_APPS = ["authentication", "linkedin"]
 SYSTEM_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
