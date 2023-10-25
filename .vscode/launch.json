@@ -9,9 +9,14 @@
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
-            "program": "${workspaceFolder}/main/manage.py",
+            "env": {
+                "SQL_HOST": "localhost"
+            },
+            "program": "${workspaceFolder}/manage.py",
             "args": [
-                "runserver"
+                "runserver",
+                "8000"
+                // "migrate"
             ],
             "django": true,
             "justMyCode": false

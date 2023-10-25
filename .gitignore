@@ -1,5 +1,10 @@
 .env
+venv
 db.sqlite3
-Pipfile
 
 __pycache__
+celery.log
+celery.beat.log
+celerybeat-schedule.db
+
+staticfiles

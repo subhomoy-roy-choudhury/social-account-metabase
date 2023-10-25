@@ -1,13 +1,25 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 import requests
 from django.conf import settings
 from authentication.models import Token
+from urllib.parse import urlencode
+
+
+def reverse_with_query(viewname, query_params=None, **kwargs):
+    url = reverse(viewname, **kwargs)
+    if query_params:
+        url = f"{url}?{urlencode(query_params)}"
+    return url
 
 # Create your views here.
-
 def dashboard(request):
-    token_obj = Token.objects.get(type="Linkedin")
     check_linkedin_token = False
+    token_obj = None 
+    try :
+        token_obj = Token.objects.get(type="Linkedin")
+    except Exception as e:
+        print(e)
     if token_obj:
         url = "https://api.linkedin.com/v2/userinfo"
         payload = {}
@@ -42,7 +54,13 @@ def complete(request):
             print('Access token:', access_token)
     else:
         print('Error:', response.status_code, response.text)
+        return redirect(reverse('authentication:all_auth_page', kwargs={}))   
+
     # Create Token Entry in DB
-    Token.objects.create(type="Linkedin", token=access_token)
-    return render(request, "all_auth.html", {"token": access_token})
+    obj, created = Token.objects.update_or_create(
+        type="Linkedin",
+        # token=access_token,
+        defaults={"token": access_token},
+    )
+    return redirect(reverse_with_query('authentication:all_auth_page', query_params={"check_linkedin_token": True, "token": access_token}))
         
