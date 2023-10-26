@@ -15,10 +15,10 @@
             },
             "program": "${workspaceFolder}/manage.py",
             "args": [
-                // "runserver",
-                // "8001"
+                "runserver",
+                "8001"
                 // "makemigrations",
-                "migrate"
+                // "migrate"
             ],
             "django": true,
             "justMyCode": false

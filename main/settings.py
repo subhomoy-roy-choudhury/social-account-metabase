@@ -153,6 +153,7 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = [
     "public-profile-url",
 ]
 
+# Celery Parameters
 CELERY_BROKER_URL = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:8379"
 CELERY_RESULT_BACKEND = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:8379"
 CELERY_ACCEPT_CONTENT = ["application/json"]
@@ -160,9 +161,20 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "Asia/Kolkata"
 
-# jazzmin
-# Check out :- 
-# https://django-jazzmin.readthedocs.io/configuration/
+# OPEN AI PARAMETERS
+OPENAI_API_KEY=os.environ.get("OPENAI_API_KEY", "")
+MAX_TOKENS=os.environ.get("MAX_TOKENS", 100)
+TEMPERATURE=os.environ.get("TEMPERATURE", 0.7)
+TOP_P=os.environ.get("TOP_P", 0.5)
+FREQUENCY_PENALTY=os.environ.get("FREQUENCY_PENALTY", 0.5)
+
+# Google News ARTCLE SEARCH PARAMETERS
+COUNTRY=os.environ.get("COUNTRY", "IN")
+PERIOD=os.environ.get("PERIOD", "1d")
+MAX_RESULTS=os.environ.get("MAX_RESULTS", 1)
+
+# JAZZMIN
+# Check out :-  https://django-jazzmin.readthedocs.io/configuration/
 JAZZMIN_SETTINGS = {
     "site_title": "Oderna Technologies",
     "site_header": "Oderna Technologies",
