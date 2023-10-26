@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.9.5-alpine
+FROM python:3.9-slim
 
 # set work directory
 WORKDIR /usr/src/main
@@ -8,18 +8,25 @@ WORKDIR /usr/src/main
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# install psycopg2
-RUN apk update \
-    && apk add --virtual build-deps gcc python3-dev musl-dev \
-    && apk add postgresql-dev \
-    && apk add --no-cache postgresql-client \
-    && pip install psycopg2 ruamel.yaml.clib  \
-    && apk del build-deps
+# install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc g++ libpq-dev curl ncat && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# install dependencies
-RUN pip install --upgrade pip
+# install python dependencies
+RUN pip install --upgrade pip \
+    && pip install ruamel.yaml.clib psycopg2-binary
+
+# Install Poetry
+RUN pip install poetry
+RUN poetry config virtualenvs.create false
+
+# install project dependencies
 COPY ./requirements.txt /usr/src/main/requirements.txt
-RUN pip install -r /usr/src/main/requirements.txt
+# RUN pip install -r /usr/src/main/requirements.txt
+COPY pyproject.toml poetry.lock* /usr/src/main/
+RUN poetry install --no-dev --no-interaction --no-ansi
 
 # copy entrypoint.sh
 COPY ./entrypoint.sh /usr/src/main/entrypoint.sh
