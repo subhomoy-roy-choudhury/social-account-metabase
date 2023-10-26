@@ -37,8 +37,11 @@ def get_article(
             exclude_websites=exclude_websites,
         )
         news = google_news.get_news(search_key)
-        article = google_news.get_full_article(news[0]["url"])
-        content = article.text
+        if len(news) > 0:
+            article = google_news.get_full_article(news[0]["url"])
+            content = article.text
+        else :
+            start = True
 
     return article
 
