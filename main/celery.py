@@ -28,6 +28,6 @@ app.conf.beat_schedule = {
     # Execute the Speed Test every 10 minutes
     'daily_linkedin_post': {
         'task': 'daily_linkedin_post',
-        'schedule': crontab(minute='*/2'),
+        'schedule': crontab(minute='*/30'),
     },
 }
