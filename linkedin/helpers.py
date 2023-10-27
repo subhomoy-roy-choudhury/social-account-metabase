@@ -1,6 +1,7 @@
 from gnews import GNews
 import openai
 import random
+import requests
 from datetime import datetime
 from linkedin.constants import (
     ALLOWED_AUTOMATION_TIP_OF_THE_DAY,
@@ -11,6 +12,7 @@ from linkedin.constants import (
     RELEVANT_HASHTAGS,
 )
 from django.conf import settings
+from linkedin.error import NoSuitableArticleFound
 
 openai.api_key = settings.OPENAI_API_KEY
 
@@ -21,29 +23,28 @@ def count_tokens(text):
     number_of_tokens = len(tokens)
     return number_of_tokens
 
-
-def get_article(
-    search_key, country="US", period="1d", max_results=1, exclude_websites=[]
-):
-    start = True
-    content = ""
-    while start or count_tokens(content) > 3000:
-        start = False
-        google_news = GNews(
-            language="en",
-            country=country,
-            period=period,
-            max_results=int(max_results),
-            exclude_websites=exclude_websites,
-        )
+def get_suitable_article(search_key, google_news, max_attempts=10):
+    for _ in range(max_attempts):
         news = google_news.get_news(search_key)
-        if len(news) > 0:
-            article = google_news.get_full_article(news[0]["url"])
-            content = article.text
-        else :
-            start = True
+        for article_info in news:
+            article = google_news.get_full_article(article_info["url"])
+            if article.text and count_tokens(article.text) <= 3000:
+                return article
+    raise NoSuitableArticleFound("Unable to find a suitable article after several attempts.")
 
-    return article
+def get_article(search_key, country="US", period="1d", max_results=10, exclude_websites=[]):
+    google_news = GNews(
+        language="en",
+        country=country,
+        period=period,
+        max_results=max_results,
+        exclude_websites=exclude_websites
+    )
+    try:
+        return get_suitable_article(search_key, google_news)
+    except NoSuitableArticleFound as e:
+        print(e)  # Or any other form of logging you prefer.
+        return None
 
 
 def generate_summarizer(
@@ -143,3 +144,28 @@ def get_linkedin_post():
 
     linkedin_post_text = format_linkedin_post(daily_article_data)
     return linkedin_post_text
+
+def create_linkedin_post(access_token, post_text):
+    url = 'https://api.linkedin.com/v2/ugcPosts'
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json',
+        'X-Restli-Protocol-Version': '2.0.0'
+    }
+    data = {
+        "author": "urn:li:person:CTJGCF2Lyd",
+        "lifecycleState": "PUBLISHED",
+        "specificContent": {
+            "com.linkedin.ugc.ShareContent": {
+                "shareCommentary": {
+                    "text": post_text
+                },
+                "shareMediaCategory": "NONE"
+            }
+        },
+        "visibility": {
+            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+        }
+    }
+    response = requests.post(url, headers=headers, json=data, verify=False)
+    return response.json()

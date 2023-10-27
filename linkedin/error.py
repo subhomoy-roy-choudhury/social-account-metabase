@@ -1,0 +1,2 @@
+class NoSuitableArticleFound(Exception):
+    pass
