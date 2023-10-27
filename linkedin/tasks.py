@@ -3,7 +3,7 @@ from celery import shared_task
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from linkedin.models import LinkedinPost
-from linkedin.helpers import get_linkedin_post
+from linkedin.helpers import get_linkedin_post, create_linkedin_post
 from authentication.helpers import check_linkedin_token
 
 
@@ -13,8 +13,8 @@ def daily_linkedin_post():
     today = timezone.now().date()
 
     # check Linkedin access token
-    check_token, error = check_linkedin_token()
-    if check_token:
+    access_token, error = check_linkedin_token()
+    if access_token:
         try:
             # Try to get the LinkedinPost for today
             daily_linkedin_post = LinkedinPost.objects.get(created_at__date=today)
@@ -23,8 +23,13 @@ def daily_linkedin_post():
         except ObjectDoesNotExist:
             # If post doesn't exist, then fetch the LinkedIn post and create the object
             markdown_content = get_linkedin_post()
+            # Create Post
+            # linkedin_post_id = create_linkedin_post(access_token, markdown_content)
+            linkedin_post_id = "urn:li:share:6521244543193575424"
             daily_linkedin_post = LinkedinPost.objects.create(
-                created_at=today, markdown=markdown_content
+                created_at=today,
+                markdown=markdown_content,
+                linkedin_post_id=linkedin_post_id,
             )
             print("Linkedin Post Created Successfully!")
     else:

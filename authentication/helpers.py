@@ -17,6 +17,6 @@ def check_linkedin_token():
 
         response = requests.get(url, headers=headers, verify=False)
 
-        return 200 <= response.status_code < 300, response.text
+        return 200 <= response.status_code < 300 and token_obj.token, response.text
 
     return False
