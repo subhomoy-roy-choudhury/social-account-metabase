@@ -82,7 +82,7 @@ def to_bold_text(input_text):
 def format_linkedin_post(data):
     # Formatting the news using the template
     formatted_news = (
-        f"🚀 {to_bold_text('[TechFlash]: Your Weekly Software & Tech Update')}!\n\n"
+        f"🚀 {to_bold_text('[TechFlash]: Your Daily Software & Tech Update')}!\n\n"
     )
     formatted_news += f"📅 Date: {datetime.now().strftime('%B %d, %Y')}\n\n"  # Change this to the current date
 
