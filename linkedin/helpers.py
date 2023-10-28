@@ -37,7 +37,7 @@ def get_article(search_key, country="US", period="1d", max_results=10, exclude_w
         language="en",
         country=country,
         period=period,
-        max_results=max_results,
+        max_results=int(max_results),
         exclude_websites=exclude_websites
     )
     try:
