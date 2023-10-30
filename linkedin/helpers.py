@@ -25,11 +25,14 @@ def count_tokens(text):
 
 def get_suitable_article(search_key, google_news, max_attempts=10):
     for _ in range(max_attempts):
-        news = google_news.get_news(search_key)
-        for article_info in news:
-            article = google_news.get_full_article(article_info["url"])
-            if article.text and count_tokens(article.text) <= 3000:
-                return article
+        try :
+            news = google_news.get_news(search_key)
+            for article_info in news:
+                article = google_news.get_full_article(article_info["url"])
+                if article.text and count_tokens(article.text) <= 3000:
+                    return article
+        except Exception as error:
+            print("Error in get_suitable_article", str(error))
     raise NoSuitableArticleFound("Unable to find a suitable article after several attempts.")
 
 def get_article(search_key, country="US", period="1d", max_results=10, exclude_websites=[]):
