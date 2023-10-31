@@ -22,6 +22,38 @@
             ],
             "django": true,
             "justMyCode": false
+        },
+        {
+            "name": "Python: Celery Worker",
+            "type": "python",
+            "request": "launch",
+            "module": "celery",
+            "console": "integratedTerminal",
+            "args": [
+                "-A",
+                "main",
+                "worker",
+                "-l",
+                "info",
+                "-P",
+                "solo",
+            ]
+        },
+        {
+            "name": "Python: Celery Beat",
+            "type": "python",
+            "request": "launch",
+            "module": "celery",
+            "console": "integratedTerminal",
+            "args": [
+                "-A",
+                "main",
+                "beat",
+                "-l",
+                "info",
+                "-P",
+                "solo",
+            ]
         }
     ]
 }
