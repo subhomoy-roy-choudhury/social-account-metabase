@@ -1,4 +1,5 @@
 from __future__ import absolute_import, unicode_literals
+import re
 from celery import shared_task
 from django.utils import timezone
 from linkedin.error import DailyLinkedinPostTaskError
@@ -24,7 +25,8 @@ def daily_linkedin_post():
                     # If post doesn't exist, then fetch the LinkedIn post and create the object
                     markdown_content = get_linkedin_post()
                     # Create Post
-                    linkedin_post_id = create_linkedin_post(access_token, markdown_content)
+                    linkedin_post_urn = create_linkedin_post(access_token, markdown_content)
+                    linkedin_post_id = re.search(r'(\d+)', linkedin_post_urn).group()
                     # linkedin_post_id = "urn:li:share:6521244543193575424"
                     daily_linkedin_post = LinkedinPost.objects.create(
                         created_at=today,

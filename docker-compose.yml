@@ -11,6 +11,9 @@ services:
       - .env
     environment:
       - MODE=server
+      - SQL_HOST=host.docker.internal
+      - REDIS_DB_HOST=host.docker.internal
+
     restart: unless-stopped
 
   celery_worker:
@@ -22,6 +25,8 @@ services:
       - .env
     environment:
       - MODE=celery_worker
+      - SQL_HOST=host.docker.internal
+      - REDIS_DB_HOST=host.docker.internal
     depends_on:
       - web
 
@@ -34,5 +39,7 @@ services:
       - .env
     environment:
       - MODE=celery_beat
+      - SQL_HOST=host.docker.internal
+      - REDIS_DB_HOST=host.docker.internal
     depends_on:
       - web
