@@ -23,19 +23,21 @@ def count_tokens(text):
     number_of_tokens = len(tokens)
     return number_of_tokens
 
-def get_suitable_article(search_key, google_news, max_attempts=10):
-    for _ in range(max_attempts):
-        try :
-            news = google_news.get_news(search_key)
-            for article_info in news:
-                article = google_news.get_full_article(article_info["url"])
-                if article.text and count_tokens(article.text) <= 3000:
-                    return article
+
+def get_suitable_article(search_key, google_news):
+    news = google_news.get_news(search_key)
+    for article_info in news:
+        try:
+            article = google_news.get_full_article(article_info["url"])
+            if article and article.text and count_tokens(article.text) <= 3000:
+                return article
         except Exception as error:
             print("Error in get_suitable_article", str(error))
-    raise NoSuitableArticleFound("Unable to find a suitable article after several attempts.")
 
-def get_article(search_key, country="US", period="1d", max_results=10, exclude_websites=[]):
+
+def get_article(
+    search_key, country="US", period="1d", max_results=10, exclude_websites=[]
+):
     google_news = GNews(
         language="en",
         country=country,
@@ -115,60 +117,67 @@ def format_linkedin_post(data):
 
 def get_linkedin_post():
     daily_article_data = {}
+    MAX_ATTEMPTS = 10
     for key, value in ALLOWED_SEARCH_KEYS.items():
         # Get a random string from the list
+
         random_string = random.choice(value)
-        article = get_article(
-            random_string,
-            settings.COUNTRY,
-            settings.PERIOD,
-            settings.MAX_RESULTS,
-            EXCLUDE_WEBSITES,
-        )
-        summary = generate_summarizer(
-            settings.MAX_TOKENS,
-            settings.TEMPERATURE,
-            settings.TOP_P,
-            settings.FREQUENCY_PENALTY,
-            prompt=article.text,
-            person_type="Linkedin User",
-        )
-        daily_article_data[key] = {
-            "source_url": article.source_url,
-            "url": article.url,
-            "title": article.title,
-            "meta_img": article.meta_img,
-            "text": article.text,
-            "authors": article.authors,
-            "meta_description": article.meta_description,
-            "html": article.html,
-            "summary": summary,
-        }
+        for _ in range(MAX_ATTEMPTS):
+            article = get_article(
+                random_string,
+                settings.COUNTRY,
+                settings.PERIOD,
+                settings.MAX_RESULTS,
+                EXCLUDE_WEBSITES,
+            )
+            if article:
+                break
+        if article is None:
+            raise NoSuitableArticleFound(
+                "Unable to find a suitable article after several attempts."
+            )
+        else:
+            summary = generate_summarizer(
+                settings.MAX_TOKENS,
+                settings.TEMPERATURE,
+                settings.TOP_P,
+                settings.FREQUENCY_PENALTY,
+                prompt=article.text,
+                person_type="Linkedin User",
+            )
+            daily_article_data[key] = {
+                "source_url": article.source_url,
+                "url": article.url,
+                "title": article.title,
+                "meta_img": article.meta_img,
+                "text": article.text,
+                "authors": article.authors,
+                "meta_description": article.meta_description,
+                "html": article.html,
+                "summary": summary,
+            }
 
     linkedin_post_text = format_linkedin_post(daily_article_data)
     return linkedin_post_text
 
+
 def create_linkedin_post(access_token, post_text):
-    url = 'https://api.linkedin.com/v2/ugcPosts'
+    url = "https://api.linkedin.com/v2/ugcPosts"
     headers = {
-        'Authorization': f'Bearer {access_token}',
-        'Content-Type': 'application/json',
-        'X-Restli-Protocol-Version': '2.0.0'
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+        "X-Restli-Protocol-Version": "2.0.0",
     }
     data = {
         "author": "urn:li:person:CTJGCF2Lyd",
         "lifecycleState": "PUBLISHED",
         "specificContent": {
             "com.linkedin.ugc.ShareContent": {
-                "shareCommentary": {
-                    "text": post_text
-                },
-                "shareMediaCategory": "NONE"
+                "shareCommentary": {"text": post_text},
+                "shareMediaCategory": "NONE",
             }
         },
-        "visibility": {
-            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
-        }
+        "visibility": {"com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"},
     }
     response = requests.post(url, headers=headers, json=data, verify=False)
     return response.json()
