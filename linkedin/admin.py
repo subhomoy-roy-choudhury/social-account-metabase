@@ -21,7 +21,7 @@ class CustomLinkedinPostAdmin(admin.ModelAdmin):
         "updated_at",
     )
     search_fields = ("linkedin_post_id",)
-    ordering = ("created_at",)
+    ordering = ("-created_at",)
 
     def linkedin_post_link(self, obj):
         LINEKDIN_POST_URL_FORMAT = (
