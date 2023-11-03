@@ -17,8 +17,26 @@
             "args": [
                 "runserver",
                 "8001"
+            ],
+            "django": true,
+            "justMyCode": false
+        },
+        {
+            "name": "Python: Execute Commands",
+            "type": "python",
+            "request": "launch",
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "SQL_HOST": "localhost",
+                "REDIS_DB_HOST": "localhost"
+            },
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
                 // "makemigrations",
-                // "migrate"
+                // "migrate",
+                "initiate_db",
+                "--url",
+                "https://mega.nz/file/UaIFSKAb#cTTmyA9PH9l92Cr4t3r9v2FDZpJxhqimegH9FxAUIQU"
             ],
             "django": true,
             "justMyCode": false
