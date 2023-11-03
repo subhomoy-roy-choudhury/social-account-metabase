@@ -11,3 +11,5 @@ celerybeat-schedule
 staticfiles
 
 db/*
+
+.DS_Store
