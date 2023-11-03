@@ -30,4 +30,8 @@ app.conf.beat_schedule = {
         'task': 'daily_linkedin_post',
         'schedule': crontab(minute='*/30'),
     },
+    'weekly_database_export': {
+        'task': 'weekly_database_export',
+        'schedule': crontab(minute='*/1'), #crontab(minute=0, hour=0, day_of_month='*/3')
+    },
 }

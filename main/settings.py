@@ -21,16 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get('DEBUG', default=0))
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
-LOCAL_APPS = ["authentication", "linkedin"]
+LOCAL_APPS = ["authentication", "linkedin", "backup"]
 SYSTEM_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -84,7 +84,7 @@ DATABASES = {
         "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
         "USER": os.environ.get("SQL_USER", "user"),
         "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
-        "HOST":  os.environ.get("SQL_HOST", "localhost"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
         "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
@@ -127,8 +127,8 @@ USE_TZ = True
 
 STATIC_URL = "/staticfiles/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-WHITENOISE_MANIFEST_STRICT = False 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+WHITENOISE_MANIFEST_STRICT = False
 
 
 MEDIA_URL = "/mediafiles/"
@@ -163,17 +163,25 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "Asia/Kolkata"
 
+# STORJ CREDENTIALS
+STORJ_ACCESS_KEY=os.environ.get("STORJ_ACCESS_KEY", "")
+STORJ_SECRET_KEY=os.environ.get("STORJ_SECRET_KEY", "")
+
+# Mega.nz
+MEGA_USERNAME=os.environ.get("MEGA_USERNAME", "")
+MEGA_PASSWORD=os.environ.get("MEGA_PASSWORD", "")
+
 # OPEN AI PARAMETERS
-OPENAI_API_KEY=os.environ.get("OPENAI_API_KEY", "")
-MAX_TOKENS=os.environ.get("MAX_TOKENS", 100)
-TEMPERATURE=os.environ.get("TEMPERATURE", 0.7)
-TOP_P=os.environ.get("TOP_P", 0.5)
-FREQUENCY_PENALTY=os.environ.get("FREQUENCY_PENALTY", 0.5)
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+MAX_TOKENS = os.environ.get("MAX_TOKENS", 100)
+TEMPERATURE = os.environ.get("TEMPERATURE", 0.7)
+TOP_P = os.environ.get("TOP_P", 0.5)
+FREQUENCY_PENALTY = os.environ.get("FREQUENCY_PENALTY", 0.5)
 
 # Google News ARTCLE SEARCH PARAMETERS
-COUNTRY=os.environ.get("COUNTRY", "IN")
-PERIOD=os.environ.get("PERIOD", "1d")
-MAX_RESULTS=os.environ.get("MAX_RESULTS", 1)
+COUNTRY = os.environ.get("COUNTRY", "IN")
+PERIOD = os.environ.get("PERIOD", "1d")
+MAX_RESULTS = os.environ.get("MAX_RESULTS", 1)
 
 # JAZZMIN
 # Check out :-  https://django-jazzmin.readthedocs.io/configuration/
@@ -194,7 +202,11 @@ JAZZMIN_SETTINGS = {
     # Links to put along the top menu
     "topmenu_links": [
         # Url that gets reversed (Permissions can be added)
-        {"name": "Oderna Technologies", "url": "home", "permissions": ["auth.view_user"]},
+        {
+            "name": "Oderna Technologies",
+            "url": "home",
+            "permissions": ["auth.view_user"],
+        },
         # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
     ],

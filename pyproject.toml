@@ -71,6 +71,7 @@ whitenoise = "6.6.0"
 yarl = "1.9.2"
 psycopg = "^3.1.12"
 ipdb = "^0.13.13"
+psycopg2-binary = "^2.9.9"
 
 
 [build-system]

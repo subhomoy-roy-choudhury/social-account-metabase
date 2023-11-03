@@ -9,3 +9,5 @@ celerybeat-schedule.db
 celerybeat-schedule
 
 staticfiles
+
+db/*

@@ -50,9 +50,7 @@
                 "main",
                 "beat",
                 "-l",
-                "info",
-                "-P",
-                "solo",
+                "info"
             ]
         }
     ]
