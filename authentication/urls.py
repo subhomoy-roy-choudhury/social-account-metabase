@@ -1,10 +1,19 @@
 from django.urls import path
-from .views import dashboard, auth, complete
+from authentication.views import linkedin, dashboard
+from authentication.views.github import GithubAuthView, GithubAuthCompleteView
+from authentication.views.linkedin import LinkedinAuthView, LinkedinCompleteView
 
 app_name = "authentication"
 
 urlpatterns = [
-    path("login/<str:backend>/", auth, name="begin"),
-    path("complete/", complete, name="complete"),
+    # Linkedin
+    path("linkedin/login/", LinkedinAuthView.as_view(), name="linkedin_begin"),
+    path("linkedin/complete/", LinkedinCompleteView.as_view(), name="linkedin_complete"),
+
+    # Github
+    path("github/login/", GithubAuthView.as_view(), name="github_begin"),
+    path("github/complete/", GithubAuthCompleteView.as_view(), name="github_complete"),
+
+    # Dashboard
     path("all/", dashboard, name="all_auth_page"),
 ]

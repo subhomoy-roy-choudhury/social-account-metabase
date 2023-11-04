@@ -13,6 +13,8 @@ services:
       - MODE=server
       - SQL_HOST=host.docker.internal
       - REDIS_DB_HOST=host.docker.internal
+      - PORT=8000
+      - BASE_URL="http://localhost:8000"
 
     restart: unless-stopped
 
@@ -27,6 +29,8 @@ services:
       - MODE=celery_worker
       - SQL_HOST=host.docker.internal
       - REDIS_DB_HOST=host.docker.internal
+      - PORT=8000
+      - BASE_URL="http://localhost:8000"
     depends_on:
       - web
 
@@ -41,5 +45,7 @@ services:
       - MODE=celery_beat
       - SQL_HOST=host.docker.internal
       - REDIS_DB_HOST=host.docker.internal
+      - PORT=8000
+      - BASE_URL="http://localhost:8000"
     depends_on:
       - web

@@ -8,12 +8,22 @@
 </div>
 {% else %}
 <div>
-    <a href="{% url 'authentication:begin' 'linkedin-auth2' %}">Connect to LinkedIn</a>
+    <a href="{% url 'authentication:linkedin_begin' %}">Connect to LinkedIn</a>
+</div>
+{% endif %}
+
+{% if check_github_token %}
+<div>
+    <button>Connected to Github</button>
+</div>
+{% else %}
+<div>
+    <a href="{% url 'authentication:github_begin' %}">Connect to Github</a>
 </div>
 {% endif %}
 
 {% if token %}
-<p> Linkedin Token :- {{token}}</p>
+<p> Github Token :- {{github_token}}</p>
 {% endif %}
 
 {% endblock content %}

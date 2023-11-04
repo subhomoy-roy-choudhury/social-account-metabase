@@ -10,13 +10,16 @@
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
             "env": {
+                "DEBUG": "1",
                 "SQL_HOST": "localhost",
-                "REDIS_DB_HOST": "localhost"
+                "REDIS_DB_HOST": "localhost",
+                "SQL_DATABASE": "local-db"
             },
             "program": "${workspaceFolder}/manage.py",
             "args": [
                 "runserver",
-                "8001"
+                "8001",
+                "--noreload"
             ],
             "django": true,
             "justMyCode": false
@@ -28,7 +31,7 @@
             "envFile": "${workspaceFolder}/.env",
             "env": {
                 "SQL_HOST": "localhost",
-                "REDIS_DB_HOST": "localhost"
+                "REDIS_DB_HOST": "localhost",
             },
             "program": "${workspaceFolder}/manage.py",
             "args": [
