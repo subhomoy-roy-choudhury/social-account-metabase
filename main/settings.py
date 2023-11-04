@@ -28,6 +28,9 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = ["*"]
 
+# Base URL
+BASE_URL = os.environ.get("BASE_URL", "http://localhost:8080")
+
 
 # Application definition
 LOCAL_APPS = ["authentication", "linkedin", "backup"]
@@ -154,6 +157,10 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = [
     "formatted-name",
     "public-profile-url",
 ]
+
+# Github Auth Credentials
+GITHUB_CLIENT_ID = "4704fe2865b73d36ee22"
+GITHUB_CLIENT_SECRET = "ecaf4fda023b2ce4b170c9ae5799a089cc85a88c"
 
 # Celery Parameters
 CELERY_BROKER_URL = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:8379"
