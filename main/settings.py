@@ -33,7 +33,7 @@ BASE_URL = os.environ.get("BASE_URL", "http://localhost:8080")
 
 
 # Application definition
-LOCAL_APPS = ["authentication", "linkedin", "backup"]
+LOCAL_APPS = ["authentication", "linkedin", "backup", "github_app"]
 SYSTEM_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -171,12 +171,12 @@ CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "Asia/Kolkata"
 
 # STORJ CREDENTIALS
-STORJ_ACCESS_KEY=os.environ.get("STORJ_ACCESS_KEY", "")
-STORJ_SECRET_KEY=os.environ.get("STORJ_SECRET_KEY", "")
+STORJ_ACCESS_KEY = os.environ.get("STORJ_ACCESS_KEY", "")
+STORJ_SECRET_KEY = os.environ.get("STORJ_SECRET_KEY", "")
 
 # Mega.nz
-MEGA_USERNAME=os.environ.get("MEGA_USERNAME", "")
-MEGA_PASSWORD=os.environ.get("MEGA_PASSWORD", "")
+MEGA_USERNAME = os.environ.get("MEGA_USERNAME", "")
+MEGA_PASSWORD = os.environ.get("MEGA_PASSWORD", "")
 
 # OPEN AI PARAMETERS
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")

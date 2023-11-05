@@ -30,6 +30,7 @@ class GithubAuthView(AuthView):
             redirect_uri=f"{settings.BASE_URL}/auth/github/complete/",
             state=request.session["state"],
             allow_signup="false",
+            scope=["repo"],
         )
         return HttpResponseRedirect(url)
 
