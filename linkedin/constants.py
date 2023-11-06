@@ -1,4 +1,10 @@
-EXCLUDE_WEBSITES = ["yahoo.com", "cnn.com", "www.digitaljournal.com"]
+EXCLUDE_WEBSITES = [
+    "www.digitaljournal.com",
+    # "www.cxotoday.com",
+    # "www.argylereport.com",
+    # "www.sci.news",
+    # "spectrum.ieee.org"
+]
 
 ALLOWED_SEARCH_KEYS = {
     "Headline Highlight": [

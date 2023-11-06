@@ -71,7 +71,7 @@ def generate_summarizer(
     person_type,
 ):
     res = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-3.5-turbo-16k",
         max_tokens=int(max_tokens),
         temperature=float(temperature),
         top_p=float(top_p),
