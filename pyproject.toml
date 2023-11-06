@@ -76,6 +76,7 @@ mega-py = "^1.0.8"
 oauthlib = "^3.2.2"
 reportlab = "^4.0.6"
 pygithub = "^2.1.1"
+tiktoken = "^0.5.1"
 
 
 [build-system]

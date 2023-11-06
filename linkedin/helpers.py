@@ -1,5 +1,6 @@
 from gnews import GNews
 import openai
+import tiktoken
 import random
 import requests
 from datetime import datetime
@@ -23,11 +24,11 @@ from reportlab.pdfbase.ttfonts import TTFont
 openai.api_key = settings.OPENAI_API_KEY
 
 
-def count_tokens(text):
-    # Simple tokenization using split (doesn't handle punctuation well)
-    tokens = text.split()
-    number_of_tokens = len(tokens)
-    return number_of_tokens
+def count_tokens(string: str, model_name: str = "gpt-3.5-turbo") -> int:
+    """Returns the number of tokens in a text string."""
+    encoding = tiktoken.encoding_for_model(model_name)
+    num_tokens = len(encoding.encode(string))
+    return num_tokens
 
 
 def get_suitable_article(search_key, google_news):
@@ -49,7 +50,7 @@ def get_article(
         country=country,
         period=period,
         max_results=int(max_results),
-        exclude_websites=exclude_websites
+        exclude_websites=exclude_websites,
     )
     try:
         return get_suitable_article(search_key, google_news)
@@ -189,13 +190,14 @@ def create_linkedin_post(access_token, post_text):
     response = requests.post(url, headers=headers, json=data, verify=False)
     return response.json()
 
+
 class LinkedinPostPDF(object):
     def __init__(self, filename):
         self.load_font()
         self.canvas = canvas.Canvas(filename)
         self.width, self.height = (500, 500)
         self.canvas.setPageSize((self.width, self.height))
-    
+
     def wrap_text(self, text, width, font, size):
         """
         Wrap the text to fit within the specified width.
@@ -206,7 +208,7 @@ class LinkedinPostPDF(object):
         words = text.split()
         lines = []
         line = ""
-        
+
         for word in words:
             if self.canvas.stringWidth(line + " " + word, font, size) <= width:
                 line += " " + word
@@ -217,20 +219,22 @@ class LinkedinPostPDF(object):
             lines.append(line)
         return lines
 
-    def draw_wrapped_text(self, text, x, y, width, font="Helvetica", size=15, x_leading=50, y_leading=20):
+    def draw_wrapped_text(
+        self, text, x, y, width, font="Helvetica", size=15, x_leading=50, y_leading=20
+    ):
         """
         Draw the wrapped text on the canvas.
         """
         lines = self.wrap_text(text, width, font, size)
-        for index,line in enumerate(lines):
+        for index, line in enumerate(lines):
             self.canvas.drawString(x, y, line.strip())
             y -= y_leading
 
         return y
 
     def load_font(self):
-        pdfmetrics.registerFont(TTFont('Symbola', 'fonts/Symbola/Symbola_hint.ttf'))
-        pdfmetrics.registerFont(TTFont('Futura', 'fonts/futura/futur.ttf'))
+        pdfmetrics.registerFont(TTFont("Symbola", "fonts/Symbola/Symbola_hint.ttf"))
+        pdfmetrics.registerFont(TTFont("Futura", "fonts/futura/futur.ttf"))
 
     def set_background(self):
         left_padding = 0
@@ -246,7 +250,9 @@ class LinkedinPostPDF(object):
         image_height = size  # Height of the image on the PDF
 
         # Draw the image on the canvas
-        self.canvas.drawImage(image_path, x_position, y_position, width=image_width, height=image_height)
+        self.canvas.drawImage(
+            image_path, x_position, y_position, width=image_width, height=image_height
+        )
 
     def initiate_default_page(self):
         # Set Background
@@ -263,45 +269,58 @@ class LinkedinPostPDF(object):
         # Page Footer
         self.canvas.setFillColor(HexColor("#7b56b1"))
         self.canvas.setFont("Helvetica", 15)
-        self.canvas.drawAlignedString(self.width // 2 + 100, 20, "@subhomoy-roy-choudhury", direction="center")
+        self.canvas.drawAlignedString(
+            self.width // 2 + 100, 20, "@subhomoy-roy-choudhury", direction="center"
+        )
         # Add hyperlink over the text
         url = "https://src-portfolio.oderna.in/"
-        self.canvas.linkURL(url, (self.width // 2 - 100, 20, self.width // 2 + 100, 30), relative=1)
-
+        self.canvas.linkURL(
+            url, (self.width // 2 - 100, 20, self.width // 2 + 100, 30), relative=1
+        )
 
     def front_page(self):
         # Default Page
         self.initiate_default_page()
 
         # Starting Coordinates
-        x_coordinate = self.width//2 - 125
-        y_coordinate = self.height//2 + 50
+        x_coordinate = self.width // 2 - 125
+        y_coordinate = self.height // 2 + 50
 
         self.canvas.setFillColor(HexColor("#7b56b1"))
         self.canvas.setFont("Symbola", 40)
-        self.canvas.drawString(x_coordinate -30, y_coordinate, "🚀")
+        self.canvas.drawString(x_coordinate - 30, y_coordinate, "🚀")
         self.canvas.setFont("Helvetica-Bold", 40)
-        self.canvas.drawString(x_coordinate  + 10, y_coordinate, "TECH FLASH")
+        self.canvas.drawString(x_coordinate + 10, y_coordinate, "TECH FLASH")
 
         # Line
-        self.canvas.setStrokeColor("#d5b8f6") 
-        self.canvas.line(x_coordinate + 70, y_coordinate - 10, x_coordinate + 200, y_coordinate - 10)
+        self.canvas.setStrokeColor("#d5b8f6")
+        self.canvas.line(
+            x_coordinate + 70, y_coordinate - 10, x_coordinate + 200, y_coordinate - 10
+        )
 
         self.canvas.setFillColor(HexColor("#7b56b1"))
         self.canvas.setFont("Helvetica", 20)
-        self.canvas.drawString(x_coordinate - 50, y_coordinate - 40, "Your Daily Software and Tech Updates!")
-        
+        self.canvas.drawString(
+            x_coordinate - 50,
+            y_coordinate - 40,
+            "Your Daily Software and Tech Updates!",
+        )
+
         # Date
         self.canvas.setFillColor(HexColor("#6b6671"))
         self.canvas.setFont("Helvetica", 20)
-        self.canvas.drawString(x_coordinate + 10, y_coordinate - 80, f"Date :- {datetime.now().strftime('%B %d, %Y')}")
-    
+        self.canvas.drawString(
+            x_coordinate + 10,
+            y_coordinate - 80,
+            f"Date :- {datetime.now().strftime('%B %d, %Y')}",
+        )
+
     def next_pages(self, header, content):
         # Default Page
         self.initiate_default_page()
 
         margin = 30
-        x_coordinate = self.width//2 - 100
+        x_coordinate = self.width // 2 - 100
         y_coordinate = self.height - 100
 
         # Heading
@@ -311,19 +330,44 @@ class LinkedinPostPDF(object):
 
         # Title
         self.canvas.setFillColor(HexColor("#1a1a1a"))
-        next_y = self.draw_wrapped_text(content['title'], margin, y_coordinate - 40, self.width - 2*margin, font="Helvetica-Bold", size=15)
+        next_y = self.draw_wrapped_text(
+            content["title"],
+            margin,
+            y_coordinate - 40,
+            self.width - 2 * margin,
+            font="Helvetica-Bold",
+            size=15,
+        )
 
         # Summary
         self.canvas.setFillColor(HexColor("#1a1a1a"))
-        next_y = self.draw_wrapped_text(content['summary'], margin, next_y - 15, self.width - 2*margin, font="Helvetica", size=15)
+        next_y = self.draw_wrapped_text(
+            content["summary"],
+            margin,
+            next_y - 15,
+            self.width - 2 * margin,
+            font="Helvetica",
+            size=15,
+        )
 
         # Link
         self.canvas.setFillColor(HexColor("#3579A6"))
         self.canvas.setFont("Futura", 15)
-        self.draw_wrapped_text("Know More", x_coordinate + 50, next_y - 15, self.width - 7*margin, font="Futura", size=15)
+        self.draw_wrapped_text(
+            "Know More",
+            x_coordinate + 50,
+            next_y - 15,
+            self.width - 7 * margin,
+            font="Futura",
+            size=15,
+        )
         # Add hyperlink over the text
-        url = content['url']
-        self.canvas.linkURL(url, (x_coordinate + 50, next_y - 15, x_coordinate + 150, next_y), relative=1)
+        url = content["url"]
+        self.canvas.linkURL(
+            url,
+            (x_coordinate + 50, next_y - 15, x_coordinate + 150, next_y),
+            relative=1,
+        )
 
     def advertising_page(self):
         pass
@@ -341,14 +385,16 @@ class LinkedinPostPDF(object):
         self.initiate_default_page()
 
         # Starting Coordinates
-        x_coordinate = self.width//2 - 175
-        y_coordinate = self.height//2 + 50
+        x_coordinate = self.width // 2 - 175
+        y_coordinate = self.height // 2 + 50
 
         self.canvas.setFillColor(HexColor("#7b56b1"))
         self.canvas.setFont("Helvetica-Bold", 40)
-        self.canvas.drawString(x_coordinate  - 30, y_coordinate, "Thanks for Reading")
+        self.canvas.drawString(x_coordinate - 30, y_coordinate, "Thanks for Reading")
         # Get the x-coordinate where the text ends
-        end_x = self.get_end_x("Thanks for Reading", x_coordinate, font="Helvetica-Bold", size=40)
+        end_x = self.get_end_x(
+            "Thanks for Reading", x_coordinate, font="Helvetica-Bold", size=40
+        )
         self.canvas.setFont("Symbola", 40)
         self.canvas.drawRightString(end_x + 10, y_coordinate, "🙏")
 
@@ -361,6 +407,7 @@ class LinkedinPostPDF(object):
         self.last_page()
         self.canvas.showPage()
         self.canvas.save()
+
 
 # if __name__ == "__main__":
 #     import json
