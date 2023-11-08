@@ -1,8 +1,10 @@
 version: '3.8'
 
 services:
-  web:
-    build: .
+  backend:
+    build: 
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile
     volumes:
       - .:/usr/src/main/
     ports:
@@ -19,7 +21,9 @@ services:
     restart: unless-stopped
 
   celery_worker:
-    build: .
+    build: 
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile
     # command: celery -A main worker --loglevel=info
     volumes:
       - .:/usr/src/main/
@@ -32,10 +36,12 @@ services:
       - PORT=8000
       - BASE_URL="http://localhost:8000"
     depends_on:
-      - web
+      - backend
 
   celery_beat:
-    build: .
+    build: 
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile
     # command: celery -A main beat --loglevel=info
     volumes:
       - .:/usr/src/main/
@@ -48,4 +54,12 @@ services:
       - PORT=8000
       - BASE_URL="http://localhost:8000"
     depends_on:
-      - web
+      - backend
+
+  # gen_ai_app:
+  #   build: 
+  #     context: .
+  #     dockerfile: ./dockerfiles/Dockerfile.genai
+  #   command: uvicorn app.main:app --host 0.0.0.0 --port 80
+  #   ports:
+  #     - 8080:80

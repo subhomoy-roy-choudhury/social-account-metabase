@@ -23,8 +23,6 @@ RUN pip install poetry
 RUN poetry config virtualenvs.create false
 
 # install project dependencies
-COPY ./requirements.txt /usr/src/main/requirements.txt
-# RUN pip install -r /usr/src/main/requirements.txt
 COPY pyproject.toml poetry.lock* /usr/src/main/
 RUN poetry install --no-dev --no-interaction --no-ansi
 
@@ -32,7 +30,7 @@ RUN poetry install --no-dev --no-interaction --no-ansi
 COPY ./entrypoint.sh /usr/src/main/entrypoint.sh
 
 # copy project
-COPY . /usr/src/main/
+COPY ./main/ /usr/src/main/
 
 # run entrypoint.sh
 ENTRYPOINT ["sh", "/usr/src/main/entrypoint.sh"]

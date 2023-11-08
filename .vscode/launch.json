@@ -8,7 +8,7 @@
             "name": "Python: Run Test Cases",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/manage.py",
+            "program": "${workspaceFolder}/main/manage.py",
             "args": [
                 "test",
                 "github_app.tests.GithubHelperFunctionTests"
@@ -27,7 +27,7 @@
                 "REDIS_DB_HOST": "localhost",
                 "SQL_DATABASE": "local-db"
             },
-            "program": "${workspaceFolder}/manage.py",
+            "program": "${workspaceFolder}//main/manage.py",
             "args": [
                 "runserver",
                 "8001",

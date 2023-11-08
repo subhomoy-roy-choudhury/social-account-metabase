@@ -13,3 +13,5 @@ staticfiles
 db/*
 
 .DS_Store
+
+llm-models/*
