@@ -1,5 +1,0 @@
-FROM subhomoy/genai-backend:latest
-
-COPY ./llm-models/ /code/models/
-
-RUN echo "Finished"
