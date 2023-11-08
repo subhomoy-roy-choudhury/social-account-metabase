@@ -76,7 +76,7 @@ def generate_summarizer(
         temperature=float(temperature),
         top_p=float(top_p),
         frequency_penalty=float(frequency_penalty),
-        request_timeout=15,
+        # request_timeout=15,
         messages=[
             {
                 "role": "system",
