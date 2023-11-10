@@ -32,6 +32,7 @@ services:
       - BASE_URL="http://localhost:8000"
     depends_on:
       - backend
+    restart: unless-stopped
 
   celery_beat:
     build: 
@@ -47,6 +48,7 @@ services:
       - BASE_URL="http://localhost:8000"
     depends_on:
       - backend
+    restart: unless-stopped
 
   # gen_ai_app:
   #   build: 

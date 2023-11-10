@@ -39,7 +39,7 @@ def get_suitable_article(search_key, google_news):
     for article_info in news:
         try:
             article = google_news.get_full_article(article_info["url"])
-            if article and article.text and count_tokens(article.text) <= 3000:
+            if article and article.text and count_tokens(article.text) <= 5000:
                 return article
         except Exception as error:
             print("Error in get_suitable_article", str(error))
