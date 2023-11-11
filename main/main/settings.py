@@ -185,6 +185,9 @@ TEMPERATURE = os.environ.get("TEMPERATURE", 0.7)
 TOP_P = os.environ.get("TOP_P", 0.5)
 FREQUENCY_PENALTY = os.environ.get("FREQUENCY_PENALTY", 0.5)
 
+# News API [https://newsapi.org/]
+NEWS_API_ACCESS_TOKEN = os.environ.get("NEWS_API_ACCESS_TOKEN", None)
+
 # Google News ARTCLE SEARCH PARAMETERS
 COUNTRY = os.environ.get("COUNTRY", "IN")
 PERIOD = os.environ.get("PERIOD", "1d")

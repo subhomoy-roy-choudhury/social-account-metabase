@@ -11,7 +11,8 @@
             "program": "${workspaceFolder}/main/manage.py",
             "args": [
                 "test",
-                "github_app.tests.GithubHelperFunctionTests"
+                // "github_app.tests.GithubHelperFunctionTests"
+                "linkedin.tests.LinkedinHelperFunctionTests"
             ],
             "django": true,
             "justMyCode": true

@@ -1,4 +1,3 @@
-from gnews import GNews
 import openai
 import tiktoken
 import random
@@ -8,12 +7,15 @@ from linkedin.constants import (
     ALLOWED_AUTOMATION_TIP_OF_THE_DAY,
     FUN_FACTS,
     ALLOWED_SEARCH_KEYS,
-    EXCLUDE_WEBSITES,
     BOLD_CHARS,
     RELEVANT_HASHTAGS,
 )
 from django.conf import settings
 from linkedin.error import NoSuitableArticleFound
+
+# News API
+from newsapi import NewsApiClient
+from newspaper import Article
 
 # Reportlab
 from reportlab.pdfgen import canvas
@@ -21,6 +23,8 @@ from reportlab.lib.colors import HexColor
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
+# Init
+newsapi = NewsApiClient(api_key=settings.NEWS_API_ACCESS_TOKEN)
 openai.api_key = settings.OPENAI_API_KEY
 
 
@@ -34,32 +38,23 @@ def count_tokens(string: str, model_name: str = "gpt-3.5-turbo") -> int:
     return num_tokens
 
 
-def get_suitable_article(search_key, google_news):
-    news = google_news.get_news(search_key)
-    for article_info in news:
-        try:
-            article = google_news.get_full_article(article_info["url"])
-            if article and article.text and count_tokens(article.text) <= 5000:
-                return article
-        except Exception as error:
-            print("Error in get_suitable_article", str(error))
-
-
-def get_article(
-    search_key, country="US", period="1d", max_results=10, exclude_websites=[]
-):
-    google_news = GNews(
-        language="en",
-        country=country,
-        period=period,
-        max_results=int(max_results),
-        exclude_websites=exclude_websites,
-    )
+def get_article_news_api(search_key):
     try:
-        return get_suitable_article(search_key, google_news)
+        # now we will fetch the new according to the choice of the user
+        # Reference :- https://newsapi.org/docs/endpoints/everything
+        news_feed = newsapi.get_everything(
+            q=search_key, language="en", sort_by="popularity", page_size=10
+        )
+        # For different language newspaper refer above table
+        full_article = Article(
+            news_feed["articles"][0]["url"], language="en"
+        )  # en for English
+        full_article.download()
+        full_article.parse()
+
+        return full_article
     except NoSuitableArticleFound as e:
-        print(e)  # Or any other form of logging you prefer.
-        return None
+        print(e)
 
 
 def generate_summarizer(
@@ -134,13 +129,7 @@ def get_linkedin_post():
 
         random_string = random.choice(value)
         for _ in range(MAX_ATTEMPTS):
-            article = get_article(
-                random_string,
-                settings.COUNTRY,
-                settings.PERIOD,
-                settings.MAX_RESULTS,
-                EXCLUDE_WEBSITES,
-            )
+            article = get_article_news_api(random_string)
             if article:
                 break
         if article is None:

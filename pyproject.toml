@@ -32,7 +32,6 @@ feedfinder2 = "0.0.4"
 feedparser = "6.0.10"
 filelock = "3.12.4"
 frozenlist = "1.4.0"
-gnews = "0.3.1"
 gunicorn = "21.2.0"
 idna = "3.4"
 jieba3k = "0.35.1"
@@ -77,6 +76,7 @@ oauthlib = "^3.2.2"
 reportlab = "^4.0.6"
 pygithub = "^2.1.1"
 tiktoken = "^0.5.1"
+newsapi-python = "^0.2.7"
 
 
 [build-system]
