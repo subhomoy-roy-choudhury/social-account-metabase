@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    build: 
+    build:
       context: .
       dockerfile: ./Dockerfile
     ports:
@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   celery_worker:
-    build: 
+    build:
       context: .
       dockerfile: ./Dockerfile
     env_file:
@@ -32,10 +32,19 @@ services:
       - BASE_URL="http://localhost:8000"
     depends_on:
       - backend
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
     restart: unless-stopped
 
   celery_beat:
-    build: 
+    build:
       context: .
       dockerfile: ./Dockerfile
     env_file:
@@ -49,7 +58,7 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
-
+    
   # gen_ai_app:
   #   build: 
   #     context: .
