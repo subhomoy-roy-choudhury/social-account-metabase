@@ -33,4 +33,4 @@ COPY ./main/entrypoint.sh /usr/src/main/entrypoint.sh
 COPY ./main/ /usr/src/main/
 
 # run entrypoint.sh
-ENTRYPOINT ["sh", "/usr/src/main/entrypoint.sh"]
+CMD sh /usr/src/main/entrypoint.sh

@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
             "name": "Python: Run Test Cases",
             "type": "python",
@@ -26,12 +27,12 @@
                 "DEBUG": "1",
                 "SQL_HOST": "localhost",
                 "REDIS_DB_HOST": "localhost",
-                "SQL_DATABASE": "local-db"
+                "SQL_DATABASE": "local-postgres"
             },
             "program": "${workspaceFolder}//main/manage.py",
             "args": [
                 "runserver",
-                "8001",
+                "8000",
                 "--noreload"
             ],
             "django": true,

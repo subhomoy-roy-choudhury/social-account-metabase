@@ -11,23 +11,9 @@ then
     echo "PostgreSQL started"
 fi
 
-if [ "$MODE" = "server" ]
-then 
-  # python manage.py flush --no-input
-  python manage.py migrate
-  python manage.py collectstatic --no-input --clear
-  gunicorn main.wsgi:application --bind 0.0.0.0:8000
-
-elif [ "$MODE" = "celery_beat" ]
-then
-
-  celery -A main beat --loglevel=info
-
-elif [ "$MODE" = "celery_worker" ]
-then
-
-  celery -A main worker --loglevel=info
-  
-fi
+python manage.py flush --no-input
+python manage.py migrate
+python manage.py collectstatic --no-input --clear
+python manage.py createsuperuser --no-input --clear
 
 exec "$@"
