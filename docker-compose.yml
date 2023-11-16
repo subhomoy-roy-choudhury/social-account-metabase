@@ -23,7 +23,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: celery -A main beat --loglevel=info
+    command: celery -A main worker --loglevel=info
     env_file:
       - .env
     environment:
@@ -49,7 +49,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: celery -A main worker --loglevel=info
+    command: celery -A main beat --loglevel=info
     env_file:
       - .env
     environment:
