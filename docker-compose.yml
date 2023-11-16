@@ -19,7 +19,7 @@ services:
 
     restart: unless-stopped
 
-  celery_worker:
+  celery-worker:
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -45,7 +45,7 @@ services:
     #       memory: 20M
     restart: unless-stopped
 
-  celery_beat:
+  celery-beat:
     build:
       context: .
       dockerfile: ./Dockerfile
