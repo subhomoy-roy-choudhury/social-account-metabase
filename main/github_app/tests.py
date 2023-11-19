@@ -7,5 +7,5 @@ class GithubHelperFunctionTests(TestCase):
         super().__init__(methodName)
         self.github_helper = GithubHelper()
 
-    def test_multiply_function(self):
+    def test_girhub_add_file(self):
         self.assertEqual(self.github_helper.add_file(), True)

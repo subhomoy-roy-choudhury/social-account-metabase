@@ -9,10 +9,17 @@ class GithubHelper(object):
         # Authentication
         self.github_client = Github(self.access_token)
         self.organization_name = "Oderna"
+        self.username = "subhomoy-roy-choudhury"
         # Set up the author information for the commit
         self.author = InputGitAuthor(
             "Subhomoy Roy Choudhury", "subhomoyrchoudhury@gmail.com"
         )
+    
+    def get_repository(self, repository_name, org = None):
+        return self.github_client.get_repo(f"{self.organization_name}/{repository_name}") if org else self.github_client.get_repo(f"{self.username}/{repository_name}")
+
+    def update_file(self):
+        pass
 
     def add_file(self):
         # Get the organization

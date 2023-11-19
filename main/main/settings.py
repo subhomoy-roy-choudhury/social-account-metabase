@@ -33,7 +33,14 @@ BASE_URL = os.environ.get("BASE_URL", "http://localhost:8080")
 
 
 # Application definition
-LOCAL_APPS = ["authentication", "linkedin", "backup", "github_app", "llm_app"]
+LOCAL_APPS = [
+    "authentication",
+    "linkedin",
+    "backup",
+    "github_app",
+    "llm_app",
+    "leetcode_app",
+]
 SYSTEM_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",

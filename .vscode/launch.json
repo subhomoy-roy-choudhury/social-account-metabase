@@ -13,7 +13,8 @@
             "args": [
                 "test",
                 // "github_app.tests.GithubHelperFunctionTests"
-                "linkedin.tests.LinkedinHelperFunctionTests"
+                // "linkedin.tests.LinkedinHelperFunctionTests"
+                "leetcode_app.tests.LeetcodeTaskFunctionTests"
             ],
             "django": true,
             "justMyCode": true
