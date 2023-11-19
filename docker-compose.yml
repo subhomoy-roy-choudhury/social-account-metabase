@@ -19,11 +19,11 @@ services:
 
     restart: unless-stopped
 
-  celery_worker:
+  celery-worker:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: celery -A main beat --loglevel=info
+    command: celery -A main worker --loglevel=info
     env_file:
       - .env
     environment:
@@ -45,11 +45,11 @@ services:
     #       memory: 20M
     restart: unless-stopped
 
-  celery_beat:
+  celery-beat:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: celery -A main worker --loglevel=info
+    command: celery -A main beat --loglevel=info
     env_file:
       - .env
     environment:
