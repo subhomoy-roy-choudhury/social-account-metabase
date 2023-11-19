@@ -14,10 +14,11 @@
                 "test",
                 // "github_app.tests.GithubHelperFunctionTests"
                 // "linkedin.tests.LinkedinHelperFunctionTests"
-                "leetcode_app.tests.LeetcodeTaskFunctionTests"
+                // "leetcode_app.tests.LeetcodeTaskFunctionTests"
+                "google_app.tests.BloggerHelpersFunctionTests"
             ],
             "django": true,
-            "justMyCode": true
+            "justMyCode": false
         },
         {
             "name": "Python: Django",
@@ -28,9 +29,9 @@
                 "DEBUG": "1",
                 "SQL_HOST": "localhost",
                 "REDIS_DB_HOST": "localhost",
-                "SQL_DATABASE": "local-postgres"
+                "SQL_DATABASE": "local-db"
             },
-            "program": "${workspaceFolder}//main/manage.py",
+            "program": "${workspaceFolder}/main/manage.py",
             "args": [
                 "runserver",
                 "8000",
@@ -48,13 +49,13 @@
                 "SQL_HOST": "localhost",
                 "REDIS_DB_HOST": "localhost",
             },
-            "program": "${workspaceFolder}/manage.py",
+            "program": "${workspaceFolder}/main/manage.py",
             "args": [
                 // "makemigrations",
-                // "migrate",
-                "initiate_db",
-                "--url",
-                "https://mega.nz/file/UaIFSKAb#cTTmyA9PH9l92Cr4t3r9v2FDZpJxhqimegH9FxAUIQU"
+                "migrate",
+                // "initiate_db",
+                // "--url",
+                // "https://mega.nz/file/UaIFSKAb#cTTmyA9PH9l92Cr4t3r9v2FDZpJxhqimegH9FxAUIQU"
             ],
             "django": true,
             "justMyCode": false
