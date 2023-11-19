@@ -169,6 +169,10 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = [
 GITHUB_CLIENT_ID = "4704fe2865b73d36ee22"
 GITHUB_CLIENT_SECRET = "ecaf4fda023b2ce4b170c9ae5799a089cc85a88c"
 
+# Google OAuth Credentials
+GOOGLE_CLIENT_ID = "898872788471-4knogen7v940oh8t6346smbc127lhdqb.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET = "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"
+
 # Celery Parameters
 CELERY_BROKER_URL = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:8379"
 CELERY_RESULT_BACKEND = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:8379"

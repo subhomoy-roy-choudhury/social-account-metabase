@@ -53,12 +53,6 @@ class LinkedinCompleteView(AuthView):
         client_secret = settings.SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET
 
         client = WebApplicationClient(client_id)
-        # data = client.prepare_request_body(
-        #     code=code,
-        #     redirect_uri=f"{settings.BASE_URL}/auth/github/complete/",
-        #     client_id=client_id,
-        #     client_secret=client_secret,
-        # )
         params = {
             "grant_type": "authorization_code",
             "code": code,
