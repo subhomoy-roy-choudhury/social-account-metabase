@@ -53,6 +53,7 @@
             "args": [
                 // "makemigrations",
                 "migrate",
+                // "createsuperuser"
                 // "initiate_db",
                 // "--url",
                 // "https://mega.nz/file/UaIFSKAb#cTTmyA9PH9l92Cr4t3r9v2FDZpJxhqimegH9FxAUIQU"

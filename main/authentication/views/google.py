@@ -33,6 +33,9 @@ class GoogleAuthView(AuthView):
             state=request.session["state"],
             allow_signup="false",
             scope=[
+                "openid",
+                "email",
+                "profile",
                 "https://www.googleapis.com/auth/blogger",
                 "https://www.googleapis.com/auth/drive.metadata.readonly",
             ],
@@ -45,7 +48,7 @@ class GoogleAuthCompleteView(AuthView):
         data = request.GET
         code = data["code"]
         state = data["state"]
-        
+
         if state != self.request.session["state"]:
             messages.add_message(
                 self.request, messages.ERROR, "State information mismatch!"
@@ -53,7 +56,7 @@ class GoogleAuthCompleteView(AuthView):
             return HttpResponseRedirect(reverse("github:welcome"))
         else:
             del self.request.session["state"]
-        
+
         client_id = settings.GOOGLE_CLIENT_ID
         client_secret = settings.GOOGLE_CLIENT_SECRET
 
@@ -68,12 +71,12 @@ class GoogleAuthCompleteView(AuthView):
         response = requests.post(GOOGLE_ID_ACCESS_TOKEN_URL, data=params, verify=False)
         client.parse_request_body_response(response.text)
         if response.status_code == 200:
-            access_token = client.token['access_token']
+            access_token = client.token["access_token"]
             print("Access token:", access_token)
-        else :
+        else:
             print("Error:", response.status_code, response.text)
             return redirect(reverse("authentication:all_auth_page", kwargs={}))
-        
+
         # Create Token Entry in DB
         obj, created = Token.objects.update_or_create(
             type="Google",
