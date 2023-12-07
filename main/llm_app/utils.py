@@ -1,0 +1,81 @@
+import tiktoken
+from django.conf import settings
+import openai
+from langchain.llms import GooglePalm
+from langchain.prompts import PromptTemplate
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.docstore.document import Document
+from langchain.callbacks.manager import CallbackManager
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain.chains.summarize import load_summarize_chain
+
+from llm_app.prompt_templates import SUMMERIZATION_PROMPT_TEMPLATE
+
+# Callbacks support token-wise streaming
+callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
+
+# Palm LLM
+palm_llm = GooglePalm(
+    temperature=float(settings.TEMPERATURE),
+    max_tokens=int(settings.MAX_TOKENS),
+    top_p=float(settings.TOP_P),
+    callback_manager=callback_manager,
+)
+
+# OpenAI
+openai.api_key = settings.OPENAI_API_KEY
+
+
+def count_tokens(string: str, model_name: str = "gpt-3.5-turbo") -> int:
+    """
+    Returns the number of tokens in a text string.
+    Reference Link := https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
+    """
+    encoding = tiktoken.encoding_for_model(model_name)
+    num_tokens = len(encoding.encode(string))
+    return num_tokens
+
+
+def generate_summarizer(
+    max_tokens,
+    temperature,
+    top_p,
+    frequency_penalty,
+    prompt,
+    person_type,
+):
+    res = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo-16k",
+        max_tokens=int(settings.MAX_TOKENS),
+        temperature=float(settings.TEMPERATURE),
+        top_p=float(settings.TOP_P),
+        frequency_penalty=float(settings.FREQUENCY_PENALTY),
+        # request_timeout=15,
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a helpful assistant for text summarization.",
+            },
+            {
+                "role": "user",
+                "content": f"Summarize this for a {person_type} within 20 words: {prompt}",
+            },
+        ],
+    )
+    return res["choices"][0]["message"]["content"]
+
+
+def run_summerise_text(context):
+    prompt = PromptTemplate.from_template(SUMMERIZATION_PROMPT_TEMPLATE)
+
+    # Split text
+    text_splitter = CharacterTextSplitter()
+    texts = text_splitter.split_text(context)
+
+    # Create multiple documents
+    docs = [Document(page_content=t) for t in texts]
+
+    # Text summarization
+    chain = load_summarize_chain(palm_llm, chain_type="stuff", prompt=prompt)
+
+    return chain.run(docs)
