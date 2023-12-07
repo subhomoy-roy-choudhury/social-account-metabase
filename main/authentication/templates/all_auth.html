@@ -26,6 +26,10 @@
     <a href="{% url 'authentication:google_begin' %}">Connect to Google</a>
 </div>
 
+<div>
+    <a href="{% url 'authentication:twitter_begin' %}">Connect to Twitter</a>
+</div>
+
 {% if token %}
 <p> Github Token :- {{github_token}}</p>
 {% endif %}

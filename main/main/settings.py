@@ -177,6 +177,10 @@ GITHUB_CLIENT_SECRET = "ecaf4fda023b2ce4b170c9ae5799a089cc85a88c"
 GOOGLE_CLIENT_ID = "898872788471-4knogen7v940oh8t6346smbc127lhdqb.apps.googleusercontent.com"
 GOOGLE_CLIENT_SECRET = "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"
 
+# Twitter OAuth Credentials
+TWITTER_CLIENT_ID = "NW92REhYYUZkM3FhSzVrUEF5Vmo6MTpjaQ"
+TWITTER_CLIENT_SECRET = "FcDGaV4CQtZMmREPmlq7enbc1P--Hz86ox5mubhJkchD_I-C29"
+
 # Celery Parameters
 CELERY_BROKER_URL = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:8379"
 CELERY_RESULT_BACKEND = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:8379"
