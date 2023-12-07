@@ -26,6 +26,10 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
+CSRF_TRUSTED_ORIGINS = [
+  'https://homelab-admin.oderna.in/*'
+]
+
 ALLOWED_HOSTS = ["*"]
 
 # Base URL
