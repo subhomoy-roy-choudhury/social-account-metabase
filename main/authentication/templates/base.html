@@ -2,24 +2,55 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Include the Bulma CSS framework for styling -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <title>Dwitter</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <title>Social Media Metabase</title>
+    <style>
+        .navbar-custom-css {
+            padding-left: 200px;
+            padding-right: 200px
+        }
+    </style>
+    {% block styles %}
+    {% endblock styles %}
 </head>
+
 <body>
     <section>
-        <h1>Social Account Metabase</h1>
-        <p>One Place Solution for all social accounts</p>
+        <nav class="navbar is-info navbar-custom-css" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="https://bulma.io">
+                    <h1 class="title">Social Media Metabase</h1>
+                </a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-primary" href="{% url 'admin:index' %}">
+                                <strong>Admin</strong>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
     </section>
     <div>
         {% block content %}
-
         {% endblock content %}
     </div>
 </body>
+
 </html>

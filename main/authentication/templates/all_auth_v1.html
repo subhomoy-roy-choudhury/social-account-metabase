@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+
+<style>
+    #all_auth_section {
+        display: flex;
+        flex-direction: column;
+        margin: 100px;
+        gap: 4rem;
+    }
+
+    .all_auth_header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .all_auth_h2 {
+        font-size: 50px;
+        font-weight: 600;
+    }
+
+    .service-list {
+        display: flex;
+        flex-direction: row;
+        gap: 3rem;
+    }
+
+    .service {
+        display: flex;
+        flex-direction: row;
+        padding-left: 20px;
+        padding-right: 15rem;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        border-radius: 20px;
+        background-color: #5476d3;
+        box-shadow: 5px 5px #888888;
+    }
+
+    .service-text {
+        color: white;
+        font-weight: 600;
+    }
+</style>
+
+{% endblock styles %}
+
+{% block content %}
+
+<section id="all_auth_section" class="">
+    <div class="all_auth_header">
+        <h2 class="all_auth_h2">Services List :- </h2>
+    </div>
+    <div class="container service-list">
+        {% for service in service_list %}
+            <div class="container service">
+                <h3 class="service-text">{{service.name}}</h3>
+            </div>
+        {% empty %}
+            <li>No services found.</li>
+        {% endfor %}
+    </div>
+
+</section>
+
+{% endblock content %}

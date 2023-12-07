@@ -1,5 +1,3 @@
-import openai
-import tiktoken
 import random
 import requests
 from datetime import datetime
@@ -23,19 +21,11 @@ from reportlab.lib.colors import HexColor
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
+# LLM
+from llm_app.utils import run_summerise_text
+
 # Init
 newsapi = NewsApiClient(api_key=settings.NEWS_API_ACCESS_TOKEN)
-openai.api_key = settings.OPENAI_API_KEY
-
-
-def count_tokens(string: str, model_name: str = "gpt-3.5-turbo") -> int:
-    """
-    Returns the number of tokens in a text string.
-    Reference Link := https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
-    """
-    encoding = tiktoken.encoding_for_model(model_name)
-    num_tokens = len(encoding.encode(string))
-    return num_tokens
 
 
 def get_article_news_api(search_key):
@@ -55,36 +45,6 @@ def get_article_news_api(search_key):
         return full_article
     except NoSuitableArticleFound as e:
         print(e)
-
-
-def generate_summarizer(
-    max_tokens,
-    temperature,
-    top_p,
-    frequency_penalty,
-    prompt,
-    person_type,
-):
-    res = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
-        max_tokens=int(max_tokens),
-        temperature=float(temperature),
-        top_p=float(top_p),
-        frequency_penalty=float(frequency_penalty),
-        # request_timeout=15,
-        messages=[
-            {
-                "role": "system",
-                "content": "You are a helpful assistant for text summarization.",
-            },
-            {
-                "role": "user",
-                "content": f"Summarize this for a {person_type} within 20 words: {prompt}",
-            },
-        ],
-    )
-    return res["choices"][0]["message"]["content"]
-
 
 def to_bold_text(input_text):
     return "".join(BOLD_CHARS.get(c, c) for c in input_text)
@@ -137,14 +97,7 @@ def get_linkedin_post():
                 "Unable to find a suitable article after several attempts."
             )
         else:
-            summary = generate_summarizer(
-                settings.MAX_TOKENS,
-                settings.TEMPERATURE,
-                settings.TOP_P,
-                settings.FREQUENCY_PENALTY,
-                prompt=article.text,
-                person_type="Linkedin User",
-            )
+            summary = run_summerise_text(article.text)
             daily_article_data[key] = {
                 "source_url": article.source_url,
                 "url": article.url,
