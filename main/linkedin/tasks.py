@@ -30,7 +30,6 @@ def daily_linkedin_post():
                     access_token, markdown_content
                 ).get("id", None)
                 linkedin_post_id = re.search(r"(\d+)", linkedin_post_urn).group()
-                # linkedin_post_id = "urn:li:share:6521244543193575424"
                 daily_linkedin_post = LinkedinPost.objects.create(
                     created_at=today,
                     markdown=markdown_content,

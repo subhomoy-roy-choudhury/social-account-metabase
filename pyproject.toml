@@ -81,6 +81,7 @@ newsapi-python = "^0.2.7"
 google-api-python-client = "^2.108.0"
 oauth2client = "^4.1.3"
 google-generativeai = "^0.2.2"
+arxiv = "^2.0.0"
 
 
 [build-system]

@@ -66,3 +66,20 @@ def check_google_token():
             return False, "Token information could not be retrieved."
     else:
         print("Token is invalid or expired.")
+
+def check_twitter_token():
+    token_obj = None
+    try:
+        token_obj = Token.objects.get(type="Twitter")
+    except ObjectDoesNotExist:
+        return False, "Twitter token not found."
+
+    if token_obj:
+        url = "https://api.twitter.com/2/me"
+        headers = {"Authorization": "token {}".format(token_obj.token)}
+
+        response = requests.get(url, headers=headers, verify=False)
+
+        return 200 <= response.status_code < 300 and token_obj.token, response.text
+
+    return False, "Invalid Twitter Access Token"

@@ -32,6 +32,10 @@ app.conf.beat_schedule = {
         "task": "daily_linkedin_post",
         "schedule": crontab(minute="*/30"),
     },
+    "daily_arvix_research_paper_tweets": {
+        "task": "daily_arvix_research_paper_tweets",
+        "schedule": crontab(hour="*/1"),
+    },
     "weekly_database_export": {
         "task": "weekly_database_export",
         "schedule": crontab(minute=0, hour=0, day_of_month="*/3"),

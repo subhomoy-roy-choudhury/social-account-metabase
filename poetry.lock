@@ -174,6 +174,22 @@ test = ["anyio[trio]", "coverage[toml] (>=4.5)", "hypothesis (>=4.0)", "mock (>=
 trio = ["trio (<0.22)"]
 
 [[package]]
+name = "arxiv"
+version = "2.0.0"
+description = "Python wrapper for the arXiv API: https://arxiv.org/help/api/"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "arxiv-2.0.0-py3-none-any.whl", hash = "sha256:d64dd4b020782b91c267bcd3b98a1b9542250ab135fb54a1e298e8364722210c"},
+    {file = "arxiv-2.0.0.tar.gz", hash = "sha256:97f910dadf97169793ab3fcf12e75d23cb9dac4dc7c16de8b09492cde179da9f"},
+]
+
+[package.dependencies]
+feedparser = "6.0.10"
+requests = "2.31.0"
+
+[[package]]
 name = "asgiref"
 version = "3.7.2"
 description = "ASGI specs, helper code, and adapters"
@@ -3578,4 +3594,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "16020c22efa7b357ee113034ef3c319eef521200f5061955a9441edeb45d7115"
+content-hash = "1b45fc59bf503662a9fcf06a13d41dd9a318b44e7c954ea39d9b76e2a7311834"

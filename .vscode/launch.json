@@ -10,12 +10,14 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/main/manage.py",
+            "envFile": "${workspaceFolder}/.env",
             "args": [
                 "test",
                 // "github_app.tests.GithubHelperFunctionTests"
                 // "linkedin.tests.LinkedinHelperFunctionTests"
                 // "leetcode_app.tests.LeetcodeTaskFunctionTests"
-                "google_app.tests.BloggerHelpersFunctionTests"
+                // "google_app.tests.BloggerHelpersFunctionTests"
+                "twitter_app.tests.TwitterTasksFunctionTests"
             ],
             "django": true,
             "justMyCode": false
@@ -51,8 +53,8 @@
             },
             "program": "${workspaceFolder}/main/manage.py",
             "args": [
-                // "makemigrations",
-                "migrate",
+                "makemigrations",
+                // "migrate",
                 // "createsuperuser"
                 // "initiate_db",
                 // "--url",

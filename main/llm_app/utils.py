@@ -37,10 +37,6 @@ def count_tokens(string: str, model_name: str = "gpt-3.5-turbo") -> int:
 
 
 def generate_summarizer(
-    max_tokens,
-    temperature,
-    top_p,
-    frequency_penalty,
     prompt,
     person_type,
 ):
@@ -65,8 +61,8 @@ def generate_summarizer(
     return res["choices"][0]["message"]["content"]
 
 
-def run_summerise_text(context):
-    prompt = PromptTemplate.from_template(SUMMERIZATION_PROMPT_TEMPLATE)
+def run_summerise_text(context, prompt_template = SUMMERIZATION_PROMPT_TEMPLATE):
+    prompt = PromptTemplate.from_template(prompt_template)
 
     # Split text
     text_splitter = CharacterTextSplitter()

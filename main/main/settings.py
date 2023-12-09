@@ -44,6 +44,7 @@ LOCAL_APPS = [
     "github_app",
     "llm_app",
     "leetcode_app",
+    "twitter_app",
 ]
 SYSTEM_APPS = [
     "django.contrib.admin",
