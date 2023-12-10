@@ -38,7 +38,7 @@ def create_tweets(access_token, content):
 
     response = requests.request("POST", url, headers=headers, data=payload)
     if 200 <= response.status_code <= 299:
-        data = response.json()
+        data = response.json()["data"]
         tweet_id = data["id"]
         return tweet_id
     else:
