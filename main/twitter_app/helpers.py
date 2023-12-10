@@ -27,7 +27,7 @@ def create_tweets(access_token, content):
     Reference :- https://api.twitter.com/2/openapi.json
     """
     url = "https://api.twitter.com/2/tweets"
-    tweet_id, content = None, None
+    tweet_id = None
 
     payload = json.dumps({"text": content})
     headers = {
@@ -40,10 +40,9 @@ def create_tweets(access_token, content):
     if 200 <= response.status_code <= 299:
         data = response.json()
         tweet_id = data["id"]
-        content = data["text"]
+        return tweet_id
     else:
-        print("Error in Twitter create tweets API")
-    return tweet_id, content
+        raise Exception("Error in Twitter create tweets API")
 
 
 def get_research_paper_tweet_content():

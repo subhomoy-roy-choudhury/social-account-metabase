@@ -23,7 +23,7 @@ def daily_arvix_research_paper_tweets():
             else:
                 tweet_content = get_research_paper_tweet_content()
                 # Create Tweet
-                tweet_id, tweet_content = create_tweets(access_token, tweet_content)
+                tweet_id = create_tweets(access_token, tweet_content)
                 Tweet.objects.create(
                     created_at=today,
                     markdown=tweet_content,
