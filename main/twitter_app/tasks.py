@@ -32,6 +32,6 @@ def daily_arvix_research_paper_tweets():
                 )
                 print("Tweet Created Successfully!")
         else:
-            print("Invalid Access Token!!")
+            print(error)
     except Exception as e:
         raise Exception(e)
