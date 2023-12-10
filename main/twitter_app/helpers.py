@@ -1,3 +1,4 @@
+import time
 import json
 import random
 import requests
@@ -80,6 +81,7 @@ def get_research_paper_tweet_content():
             print("Published:", paper.published)
             print("----------------------------------------")
             return formatted_generated_text
+        time.sleep(2)
 
 
 def format_research_tweet(text, link):
