@@ -34,7 +34,7 @@ app.conf.beat_schedule = {
     },
     "daily_arvix_research_paper_tweets": {
         "task": "daily_arvix_research_paper_tweets",
-        "schedule": crontab(hour="*/30"),
+        "schedule": crontab(minute="*/30"),
     },
     "weekly_database_export": {
         "task": "weekly_database_export",
