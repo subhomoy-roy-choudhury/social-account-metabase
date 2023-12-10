@@ -76,7 +76,7 @@ def check_twitter_token():
 
     if token_obj:
         url = "https://api.twitter.com/2/users/me"
-        headers = {"Authorization": "token {}".format(token_obj.token)}
+        headers = {"Authorization": "Bearer {}".format(token_obj.token)}
 
         response = requests.get(url, headers=headers, verify=False)
 
