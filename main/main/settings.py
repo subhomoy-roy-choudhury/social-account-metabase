@@ -180,7 +180,7 @@ GITHUB_AUTHOR_EMAIL = os.environ.get("GITHUB_AUTHOR_EMAIL")
 
 # Google OAuth Credentials
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
-GOOGLE_CLIENT_SECRET = os.environ("GOOGLE_CLIENT_SECRET", "")
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "")
 
 # Twitter OAuth Credentials
 TWITTER_CLIENT_ID = os.environ.get("TWITTER_CLIENT_ID", "")
