@@ -3,6 +3,8 @@ from oauth2client.client import AccessTokenCredentials
 import httplib2
 from authentication.helpers import check_google_token
 
+from google_app.constants import GOOGLE_BLOG_ID
+
 
 class BloggerHelper(object):
     def __init__(self) -> None:
@@ -14,7 +16,7 @@ class BloggerHelper(object):
         http = credentials.authorize(http)
 
         self.service = build("blogger", "v3", http=http)
-        self.blog_id = "1793487694780974605"
+        self.blog_id = GOOGLE_BLOG_ID
 
     def create_posts(self, title, content):
         # Create a new blog post

@@ -1,0 +1,1 @@
+BLOG_REPO_NAME = "hugo-blog"

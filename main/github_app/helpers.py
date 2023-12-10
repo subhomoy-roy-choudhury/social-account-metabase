@@ -1,6 +1,8 @@
-from github import Github, InputGitTreeElement, InputGitAuthor
+from django.conf import settings
 
+from github import Github, InputGitTreeElement, InputGitAuthor
 from authentication.helpers import check_github_token
+from github_app.constants import BLOG_REPO_NAME
 
 
 class GithubHelper(object):
@@ -8,15 +10,19 @@ class GithubHelper(object):
         self.access_token, error = check_github_token()
         # Authentication
         self.github_client = Github(self.access_token)
-        self.organization_name = "Oderna"
-        self.username = "subhomoy-roy-choudhury"
+        self.organization_name = settings.GITHUB_ORGANIZATION_NAME
+        self.username = settings.GITHUB_AUTHOR_USERNAME
         # Set up the author information for the commit
         self.author = InputGitAuthor(
-            "Subhomoy Roy Choudhury", "subhomoyrchoudhury@gmail.com"
+            settings.GITHUB_AUTHOR_FULLNAME, settings.GITHUB_AUTHOR_EMAIL
         )
-    
-    def get_repository(self, repository_name, org = None):
-        return self.github_client.get_repo(f"{self.organization_name}/{repository_name}") if org else self.github_client.get_repo(f"{self.username}/{repository_name}")
+
+    def get_repository(self, repository_name, org=None):
+        return (
+            self.github_client.get_repo(f"{self.organization_name}/{repository_name}")
+            if org
+            else self.github_client.get_repo(f"{self.username}/{repository_name}")
+        )
 
     def update_file(self):
         pass
@@ -24,7 +30,7 @@ class GithubHelper(object):
     def add_file(self):
         # Get the organization
         org = self.github_client.get_organization(self.organization_name)
-        repo_name = "hugo-blog"
+        repo_name = BLOG_REPO_NAME
         folder_path = "content/posts"
         file_path = f"{folder_path}/second-post.md"
         commit_message = "Update file"

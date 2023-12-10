@@ -26,9 +26,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-CSRF_TRUSTED_ORIGINS = [
-  'https://homelab-admin.oderna.in/*'
-]
+CSRF_TRUSTED_ORIGINS = ["https://homelab-admin.oderna.in/*"]
 
 ALLOWED_HOSTS = ["*"]
 
@@ -156,8 +154,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Linedin Social Auth
-SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = "8657g0g8iblf08"
-SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = "aO6oRqEpHVAF7Kze"
+SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = os.environ.get("LINKEDIN_OAUTH2_KEY", "")
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = os.environ.get("LINKEDIN_OAUTH2_SECRET", "")
 SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = [
     "email",
     "profile",
@@ -171,16 +169,22 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = [
 ]
 
 # Github Auth Credentials
-GITHUB_CLIENT_ID = "4704fe2865b73d36ee22"
-GITHUB_CLIENT_SECRET = "ecaf4fda023b2ce4b170c9ae5799a089cc85a88c"
+GITHUB_CLIENT_ID = os.environ.get("GITHUB_CLIENT_ID", "")
+GITHUB_CLIENT_SECRET = os.environ.get("GITHUB_CLIENT_SECRET", "")
+
+# Github Parameters
+GITHUB_ORGANIZATION_NAME = os.environ.get("GITHUB_ORGANIZATION_NAME", "")
+GITHUB_AUTHOR_USERNAME = os.environ.get("GITHUB_AUTHOR_USERNAME", "")
+GITHUB_AUTHOR_FULLNAME = os.environ.get("GITHUB_AUTHOR_FULLNAME", "")
+GITHUB_AUTHOR_EMAIL = os.environ.get("GITHUB_AUTHOR_EMAIL")
 
 # Google OAuth Credentials
-GOOGLE_CLIENT_ID = "898872788471-4knogen7v940oh8t6346smbc127lhdqb.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET = "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"
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
+GOOGLE_CLIENT_SECRET = os.environ("GOOGLE_CLIENT_SECRET", "")
 
 # Twitter OAuth Credentials
-TWITTER_CLIENT_ID = "NW92REhYYUZkM3FhSzVrUEF5Vmo6MTpjaQ"
-TWITTER_CLIENT_SECRET = "FcDGaV4CQtZMmREPmlq7enbc1P--Hz86ox5mubhJkchD_I-C29"
+TWITTER_CLIENT_ID = os.environ.get("TWITTER_CLIENT_ID", "")
+TWITTER_CLIENT_SECRET = os.environ.get("TWITTER_CLIENT_SECRET", "")
 
 # Celery Parameters
 CELERY_BROKER_URL = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:8379"
