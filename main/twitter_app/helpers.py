@@ -23,6 +23,9 @@ def check_twitter_text_length(text):
 
 
 def create_tweets(access_token, content):
+    """
+    Reference :- https://api.twitter.com/2/openapi.json
+    """
     url = "https://api.twitter.com/2/tweets"
     tweet_id, content = None, None
 

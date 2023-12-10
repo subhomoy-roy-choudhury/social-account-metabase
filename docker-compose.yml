@@ -15,7 +15,7 @@ services:
       - SQL_HOST=host.docker.internal
       - REDIS_DB_HOST=host.docker.internal
       - PORT=8000
-      - BASE_URL="http://localhost:8000"
+      - BASE_URL=http://localhost:8000
 
     restart: unless-stopped
 
@@ -31,7 +31,7 @@ services:
       - SQL_HOST=host.docker.internal
       - REDIS_DB_HOST=host.docker.internal
       - PORT=8000
-      - BASE_URL="http://localhost:8000"
+      - BASE_URL=http://localhost:8000
     depends_on:
       - backend
     # deploy:
@@ -57,7 +57,7 @@ services:
       - SQL_HOST=host.docker.internal
       - REDIS_DB_HOST=host.docker.internal
       - PORT=8000
-      - BASE_URL="http://localhost:8000"
+      - BASE_URL=http://localhost:8000
     depends_on:
       - backend
     restart: unless-stopped

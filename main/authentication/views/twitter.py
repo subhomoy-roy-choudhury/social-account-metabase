@@ -12,7 +12,7 @@ from authentication.models import Token
 from .base import AuthView
 
 '''
-Twiitter Develoepr Document :- https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token
+Twiitter Developer Document :- https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token
 '''
 
 
