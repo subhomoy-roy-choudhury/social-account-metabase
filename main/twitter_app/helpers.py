@@ -47,28 +47,30 @@ def create_tweets(access_token, content):
 
 
 def get_research_paper_tweet_content():
+    # Define your search query, author, or category
+    search_query = random.choice(
+        [
+            "large language models",
+            "generative ai",
+            "stable diffusion",
+            "general artificial intelligance",
+        ]
+    )
+    max_results = 200  # Number of results to fetch
+
+    # Search for papers on arXiv
+    search = arxiv.Search(
+        query=search_query,
+        max_results=max_results,
+        sort_by=arxiv.SortCriterion.SubmittedDate,
+    )
+
+    research_paper_list = list(arxiv.Client().results(search))
+
     while True:
-        # Define your search query, author, or category
-        search_query = random.choice(
-            [
-                "large language models",
-                "generative ai",
-                "stable diffusion",
-                "general artificial intelligance",
-            ]
-        )
-        max_results = 100  # Number of results to fetch
-
-        # Search for papers on arXiv
-        search = arxiv.Search(
-            query=search_query,
-            max_results=max_results,
-            sort_by=arxiv.SortCriterion.SubmittedDate,
-        )
-
         # Fetching and printing the papers
         # for paper in arxiv.Client().results(search):
-        paper = random.choice(list(arxiv.Client().results(search)))
+        paper = random.choice(research_paper_list)
 
         generated_text = run_summerise_text(paper.summary, RESEARCH_PAPER_TWEETS_PROMPT_TEMPLATE)
         formatted_generated_text = format_research_tweet(generated_text, paper.entry_id)
