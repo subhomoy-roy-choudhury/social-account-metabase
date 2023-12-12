@@ -51,9 +51,11 @@ def get_research_paper_tweet_content():
     search_query = random.choice(
         [
             "large language models",
-            "generative ai",
-            "stable diffusion",
-            "general artificial intelligance",
+            "sofware engineering",
+            "artificial intelligance",
+            "deep learning",
+            "Discrete Mathematics",
+            "Emerging Technologies"
         ]
     )
     max_results = 200  # Number of results to fetch
@@ -62,7 +64,7 @@ def get_research_paper_tweet_content():
     search = arxiv.Search(
         query=search_query,
         max_results=max_results,
-        sort_by=arxiv.SortCriterion.SubmittedDate,
+        sort_by=arxiv.SortCriterion.Relevance,
     )
 
     research_paper_list = list(arxiv.Client().results(search))
@@ -87,7 +89,7 @@ def get_research_paper_tweet_content():
 
 
 def format_research_tweet(text, link):
-    hashtags = ["llm", "research", "gai", "ai", "nlp"]
+    hashtags = ["LLMs", "research", "AI", "SoftwareEngineering", "GenerativeAI"]
     tweet = """💡 New paper alert! 🚨\n\n{text}\n\nCheck out the link below to learn more:\n\n🔗 {link}\n\n"""
     tweet += " ".join(["#" + tag for tag in hashtags])
 
