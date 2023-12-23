@@ -2,6 +2,7 @@ import tiktoken
 from django.conf import settings
 import openai
 from langchain.llms import GooglePalm
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.docstore.document import Document
@@ -14,13 +15,26 @@ from llm_app.prompt_templates import SUMMERIZATION_PROMPT_TEMPLATE
 # Callbacks support token-wise streaming
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
+
 # Palm LLM
-palm_llm = GooglePalm(
-    temperature=float(settings.TEMPERATURE),
-    max_tokens=int(settings.MAX_TOKENS),
-    top_p=float(settings.TOP_P),
-    callback_manager=callback_manager,
-)
+def get_llm(type: str):
+    if type == "google-palm":
+        return GooglePalm(
+            temperature=float(settings.TEMPERATURE),
+            max_tokens=int(settings.MAX_TOKENS),
+            top_p=float(settings.TOP_P),
+            callback_manager=callback_manager,
+        )
+    elif type == "google-gemini":
+        return ChatGoogleGenerativeAI(
+            model="gemini-pro",
+            temperature=float(settings.TEMPERATURE),
+            max_tokens=int(settings.MAX_TOKENS),
+            top_p=float(settings.TOP_P),
+            callback_manager=callback_manager,
+        )
+    return None
+
 
 # OpenAI
 openai.api_key = settings.OPENAI_API_KEY
@@ -61,7 +75,7 @@ def generate_summarizer(
     return res["choices"][0]["message"]["content"]
 
 
-def run_summerise_text(context, prompt_template = SUMMERIZATION_PROMPT_TEMPLATE):
+def run_summerise_text(context, prompt_template=SUMMERIZATION_PROMPT_TEMPLATE):
     prompt = PromptTemplate.from_template(prompt_template)
 
     # Split text
@@ -72,6 +86,7 @@ def run_summerise_text(context, prompt_template = SUMMERIZATION_PROMPT_TEMPLATE)
     docs = [Document(page_content=t) for t in texts]
 
     # Text summarization
-    chain = load_summarize_chain(palm_llm, chain_type="stuff", prompt=prompt)
+    llm = get_llm("google-palm")
+    chain = load_summarize_chain(llm, chain_type="stuff", prompt=prompt)
 
     return chain.run(docs)

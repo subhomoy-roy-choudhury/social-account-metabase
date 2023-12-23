@@ -17,7 +17,8 @@
                 // "linkedin.tests.LinkedinHelperFunctionTests"
                 // "leetcode_app.tests.LeetcodeTaskFunctionTests"
                 // "google_app.tests.BloggerHelpersFunctionTests"
-                "twitter_app.tests.TwitterTasksFunctionTests"
+                // "twitter_app.tests.TwitterTasksFunctionTests"
+                "llm_app.tests.LLMUtilityTests"
             ],
             "django": true,
             "justMyCode": false
