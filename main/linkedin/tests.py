@@ -1,8 +1,8 @@
-from django.test import TestCase
+from django.test import SimpleTestCase
 from linkedin.helpers import get_linkedin_post
 
 # Create your tests here.
-class LinkedinHelperFunctionTests(TestCase):
+class LinkedinHelperFunctionTests(SimpleTestCase):
     def __init__(self, methodName: str = "runTest") -> None:
         super().__init__(methodName)
 

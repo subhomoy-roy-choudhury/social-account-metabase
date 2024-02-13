@@ -7,7 +7,9 @@ from langchain.prompts import PromptTemplate
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.docstore.document import Document
 from langchain.callbacks.manager import CallbackManager
+from langchain.callbacks import StdOutCallbackHandler
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain.chains import LLMChain
 from langchain.chains.summarize import load_summarize_chain
 
 from llm_app.prompt_templates import SUMMERIZATION_PROMPT_TEMPLATE
@@ -17,7 +19,7 @@ callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
 
 # Palm LLM
-def get_llm(type: str):
+def get_llm(type: str = "google-palm"):
     if type == "google-palm":
         return GooglePalm(
             temperature=float(settings.TEMPERATURE),
@@ -28,10 +30,11 @@ def get_llm(type: str):
     elif type == "google-gemini":
         return ChatGoogleGenerativeAI(
             model="gemini-pro",
-            temperature=float(settings.TEMPERATURE),
-            max_tokens=int(settings.MAX_TOKENS),
-            top_p=float(settings.TOP_P),
-            callback_manager=callback_manager,
+            google_api_key=settings.GOOGLE_API_KEY
+            # temperature=float(settings.TEMPERATURE),
+            # max_tokens=int(settings.MAX_TOKENS),
+            # top_p=float(settings.TOP_P),
+            # callbacks=[StdOutCallbackHandler()],
         )
     return None
 
@@ -86,7 +89,10 @@ def run_summerise_text(context, prompt_template=SUMMERIZATION_PROMPT_TEMPLATE):
     docs = [Document(page_content=t) for t in texts]
 
     # Text summarization
-    llm = get_llm("google-palm")
-    chain = load_summarize_chain(llm, chain_type="stuff", prompt=prompt)
+    # llm = get_llm("google-gemini")
+    llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=settings.GOOGLE_API_KEY)
+    chain = LLMChain(llm=llm, prompt=prompt, verbose=True)
+    return chain.run(text=docs)
+    # chain = load_summarize_chain(llm, chain_type="stuff", prompt=prompt)
 
-    return chain.run(docs)
+    # return chain.run(docs)
