@@ -187,8 +187,8 @@ TWITTER_CLIENT_ID = os.environ.get("TWITTER_CLIENT_ID", "")
 TWITTER_CLIENT_SECRET = os.environ.get("TWITTER_CLIENT_SECRET", "")
 
 # Celery Parameters
-CELERY_BROKER_URL = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:8379"
-CELERY_RESULT_BACKEND = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:8379"
+CELERY_BROKER_URL = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:{os.environ.get('REDIS_DB_PORT', 6379)}"
+CELERY_RESULT_BACKEND = f"redis://{os.environ.get('REDIS_DB_HOST', 'localhost')}:{os.environ.get('REDIS_DB_PORT', 6379)}"
 CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
